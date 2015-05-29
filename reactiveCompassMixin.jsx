@@ -59,7 +59,8 @@ navigationMixin = {
     navGetMove: function(dir, dirY) {
         var parentData,
             currentPos,
-            newPos;
+            newPos,
+            handleNewFocusElement;
 
         if(!this.navData.parent) {
             return null;
@@ -67,54 +68,58 @@ navigationMixin = {
 
         parentData = this.navData.parent.navData;
 
+        handleNewFocusElement = function(element) {
+            if(element) {
+                return element.navFindFocus(dir, dirY);
+            } else if (typeof this.navOut === "function") {
+                return this.navOut(dir, dirY);
+            } else if(this.navData.parent) {
+                return this.navData.parent.navGetMove(dir);
+            }
+        }.bind(this);
+
+        function wrap(x, max) {
+            if(x >= max) {
+                return x % max;
+            } else if(x < 0) {
+                return x + (max - 1);
+            } else {
+                return x;
+            }
+        }
+
+
         if(this.navData.parent.props.navType === "grid") {
             currentPos = this.props.navGridPos.split(",");
             currentPos[0] = parseInt(currentPos[0], 10) + dir;
             currentPos[1] = parseInt(currentPos[1], 10) + dirY;
-
-            newPos = currentPos[0] + "," + currentPos[1];
+            newPos = currentPos.join(",");
 
             var newEls = parentData.children.filter(function(el) {
-                if(el.props.navGridPos === newPos) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return !!(el.props.navGridPos === newPos);
             });
-
-            if(newEls[0]) {
-                return newEls[0].navFindFocus(dir);
-            } else {
-                console.log("out of bounds", newPos);
-                return this.navData.parent.navGetMove(dir);
-            }
-
+            return handleNewFocusElement(newEls[0]);
 
         } else if((this.navData.parent.props.navType === "horizontal" && dir !== 0) ||
             (this.navData.parent.props.navType === "vertical" && dirY !== 0)) {
-            return this.navData.parent.navGetMove(dir);
-        } else if (this.navData.parent.props.navType === "horizontal") {
-            currentPos = parentData.children.indexOf(this);
-            currentPos += dirY;
 
-            if(currentPos < 0 || currentPos >= parentData.children.length) {
-                return this.navData.parent.navGetMove(dir, dirY);
-            } else {
-                return parentData.children[currentPos].navFindFocus(dir, dirY);
-            }
+            return handleNewFocusElement(false);
         } else {
             currentPos = parentData.children.indexOf(this);
-            currentPos += dir;
-
-            if(currentPos < 0 || currentPos >= parentData.children.length) {
-                return this.navData.parent.navGetMove(dir, dirY);
+            if (this.navData.parent.props.navType === "horizontal") {
+                currentPos += dirY;
             } else {
-                return parentData.children[currentPos].navFindFocus(dir, dirY);
+                currentPos += dir;
             }
-        }
 
+            if(this.navData.parent.props.navWrap === 'wrap') {
+
+            }
+
+            return handleNewFocusElement(parentData.children[currentPos]);
+        }
     },
-    navFindFocus: function(dir) {
+    navFindFocus: function(dir, dirY) {
         var index = 0;
         if(this.navData.children.length < 1) {
             return this;
