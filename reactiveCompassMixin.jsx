@@ -165,6 +165,6 @@ navigationMixin = {
 
 module.exports = {
     navigation: navigationController,
-    listable: navigationMixin,
+    listAble: navigationMixin,
     keyMap:  keyMap
 };
