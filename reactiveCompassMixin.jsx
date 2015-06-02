@@ -26,7 +26,6 @@ navigationController = {
         var newEl = this.currentFocus.navGetMove(dir, dirY);
         if(newEl) {
             this.focus(newEl);
-            console.log(newEl.getDOMNode());
         }
     },
     init: function() {
@@ -35,9 +34,6 @@ navigationController = {
     handleKey: function(event) {
         var keyCode = keyMap[event.keyCode];
         switch(keyCode) {
-            case "ENTER":
-                console.log("enter");
-                break;
             case "LEFT":
                 this.navMove(0,-1);
                 break;
@@ -50,12 +46,19 @@ navigationController = {
             case "DOWN":
                 this.navMove(1,0);
                 break;
+            default:
+                this.currentFocus.navHandleKey(keyCode);
         }
 
     }
 };
 
 navigationMixin = {
+    navHandleKey: function(key) {
+        if(key === "ENTER" && typeof this.handleClick === "function") {
+            this.handleClick();
+        }
+    },
     navGetMove: function(dir, dirY) {
         var parentData,
             currentPos,
@@ -93,11 +96,20 @@ navigationMixin = {
             currentPos = this.props.navGridPos.split(",");
             currentPos[0] = parseInt(currentPos[0], 10) + dir;
             currentPos[1] = parseInt(currentPos[1], 10) + dirY;
+
+            if((this.navData.parent.props.navWrap === "wrapX" || this.navData.parent.props.navWrap === "wrap") && parentData.gridRows[currentPos[0]]) {
+                currentPos[1] = (currentPos[1] + parentData.gridRows[currentPos[0]]) % parentData.gridRows[currentPos[0]];
+            }
+            if((this.navData.parent.props.navWrap === "wrapY" || this.navData.parent.props.navWrap === "wrap") && parentData.gridRows[currentPos[1]]) {
+                currentPos[0] = (currentPos[0] + parentData.gridRows[currentPos[1]]) % parentData.gridRows[currentPos[1]];
+            }
+
             newPos = currentPos.join(",");
 
             var newEls = parentData.children.filter(function(el) {
                 return !!(el.props.navGridPos === newPos);
             });
+
             return handleNewFocusElement(newEls[0]);
 
         } else if((this.navData.parent.props.navType === "horizontal" && dir !== 0) ||
@@ -112,8 +124,8 @@ navigationMixin = {
                 currentPos += dir;
             }
 
-            if(this.navData.parent.props.navWrap === 'wrap') {
-
+            if(this.navData.parent.props.navWrap === "wrap") {
+                currentPos = (currentPos + parentData.children.length) % parentData.children.length;
             }
 
             return handleNewFocusElement(parentData.children[currentPos]);
@@ -132,7 +144,9 @@ navigationMixin = {
     navInit: function(children) {
         this.navData = {
             parent: null,
-            children: []
+            children: [],
+            gridRows: [],
+            gridCols: []
         };
 
         if(this.props.navParent) {
@@ -155,11 +169,23 @@ navigationMixin = {
         return {hasFocus: false};
     },
     navEach: function(children) {
-        var self = this;
+        var self = this,
+            cols = parseInt(self.props.navGridCols, 10);
 
         return children.map(function(item, i) {
             var el,
+                col,
+                row,
                 params = {focused: false, navParent: self.navSelf};
+
+            if(self.props.navType === "grid" && cols) {
+                col = i % self.props.navGridCols;
+                row = (i - col) / cols;
+                params.navGridPos = row + "," + col;
+                self.navData.gridRows[row] = self.navData.gridRows[row] ? self.navData.gridRows[row] + 1 : 1;
+                self.navData.gridCols[col] = self.navData.gridCols[col] ? self.navData.gridCols[col] + 1 : 1;
+            }
+
             el = React.cloneElement(item, params);
             return el;
         });
@@ -171,5 +197,5 @@ navigationMixin = {
 module.exports = {
     navigation: navigationController,
     listAble: navigationMixin,
-    keyMap:  keyMap
+    keyMap: keyMap
 };
