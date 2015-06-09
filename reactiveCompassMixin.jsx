@@ -8,7 +8,8 @@ keyMap = {
     37: "LEFT",
     38: "UP",
     39: "RIGHT",
-    40: "DOWN"
+    40: "DOWN",
+    8: "BACK"
 };
 
 navigationController = {
@@ -23,9 +24,11 @@ navigationController = {
         this.currentFocus.setState({focused: true});
     },
     navMove: function (dir, dirY) {
-        var newEl = this.currentFocus.navGetMove(dir, dirY);
-        if(newEl) {
-            this.focus(newEl);
+        if(this.currentFocus.navGetMove) {
+            var newEl = this.currentFocus.navGetMove(dir, dirY);
+            if(newEl) {
+                this.focus(newEl);
+            }
         }
     },
     init: function() {
@@ -36,29 +39,30 @@ navigationController = {
         switch(keyCode) {
             case "LEFT":
                 this.navMove(0,-1);
+                event.stopPropagation();
                 break;
             case "UP":
                 this.navMove(-1,0);
+                event.stopPropagation();
                 break;
             case "RIGHT":
                 this.navMove(0,1);
+                event.stopPropagation();
                 break;
             case "DOWN":
                 this.navMove(1,0);
+                event.stopPropagation();
                 break;
             default:
-                this.currentFocus.navHandleKey(keyCode);
+                if(this.currentFocus.navHandleKey) {
+                    this.currentFocus.navHandleKey(keyCode, event);
+                }
         }
 
     }
 };
 
 navigationMixin = {
-    navHandleKey: function(key) {
-        if(key === "ENTER" && typeof this.handleClick === "function") {
-            this.handleClick();
-        }
-    },
     navGetMove: function(dir, dirY) {
         var parentData,
             currentPos,
