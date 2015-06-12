@@ -2,6 +2,12 @@ var React = require('react'),
     navigationController = require('./navigationController.js');
 
 module.exports = {
+    /**
+     * Find focusable element for certain offset
+     * @param  {number} dir  Horizontal offset
+     * @param  {number} dirY Vertical offset
+     * @return {ReactNode}   ReactNode to focus
+     */
     navGetMove: function (dir, dirY) {
         'use strict';
         var parentData,
@@ -76,6 +82,13 @@ module.exports = {
             return handleNewFocusElement(parentData.children[currentPos]);
         }
     },
+    /**
+     * Find focusable child ReactNode of this Node.
+     * @param  {number} dir  Where did focus come from horizontally?
+     * @param  {number} dirY Where did focus come from vertically?
+     * @return {ReactNode}   ReactNode to focus
+     * @private
+     */
     navFindFocus: function (dir, dirY) {
         'use strict';
         if (this.navData.children.length < 1) {
@@ -86,6 +99,11 @@ module.exports = {
             return this.navData.children[0].navFindFocus(dir);
         }
     },
+    /**
+     * Initialize navigation for this element. Sets up data for navigation. To be called in render
+     * @param  {Array} children Optional! Calls navEach on these elements
+     * @return {Array}          navEach result
+     */
     navInit: function (children) {
         'use strict';
         this.navData = {
@@ -108,14 +126,19 @@ module.exports = {
             return this.navEach(children);
         }
     },
+    /**
+     * Returns self - needed to stitch children and parents in navigation tree.
+     * @return {this}
+     */
     navSelf: function () {
         'use strict';
         return this;
     },
-    getInitialState: function () {
-        'use strict';
-        return {hasFocus: false};
-    },
+    /**
+     * Prepares each element for navigation. Sets navParent callback and sets up 'focused' prop.
+     * @param  {Aray} children Children to prepare
+     * @return {Array}          Prepared children
+     */
     navEach: function (children) {
         'use strict';
         var self = this,
