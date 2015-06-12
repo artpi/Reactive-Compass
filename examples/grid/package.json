@@ -1,0 +1,16 @@
+{
+    "name"           : "Reactive-Compass-Grid-example",
+    "description"    : "",
+    "version"        : "0.0.1",
+    "private"        : true,
+    "devDependencies": {
+        "jquery": "*",
+        "browserify": "*",
+        "reactify": "*",
+        "domready": "*",
+        "react": "*"
+    },
+    "scripts": {
+      "build": "browserify -t reactify ./app.jsx -o ./build.js"
+    }
+}
