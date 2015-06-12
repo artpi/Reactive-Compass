@@ -3,7 +3,8 @@ module.exports = {
     keyMap: keyMap,
     navRoots: [],
     currentFocus: null,
-    focus: function(focus) {
+    focus: function (focus) {
+        'use strict';
         if (this.currentFocus) {
             this.currentFocus.setState({focused: false});
         }
@@ -12,6 +13,7 @@ module.exports = {
         this.currentFocus.setState({focused: true});
     },
     navMove: function (dir, dirY) {
+        'use strict';
         var newEl;
         if (this.currentFocus.navGetMove) {
             newEl = this.currentFocus.navGetMove(dir, dirY);
@@ -20,10 +22,12 @@ module.exports = {
             }
         }
     },
-    init: function(element) {
+    init: function (element) {
+        'use strict';
         element.addEventListener('keydown', this.handleKey.bind(this));
     },
-    handleKey: function(event) {
+    handleKey: function (event) {
+        'use strict';
         var keyCode = keyMap[event.keyCode];
         switch (keyCode) {
             case 'LEFT':

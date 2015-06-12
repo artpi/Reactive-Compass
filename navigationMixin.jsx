@@ -2,7 +2,8 @@ var React = require('react'),
     navigationController = require('./navigationController.js');
 
 module.exports = {
-    navGetMove: function(dir, dirY) {
+    navGetMove: function (dir, dirY) {
+        'use strict';
         var parentData,
             currentPos,
             newPos,
@@ -15,7 +16,7 @@ module.exports = {
 
         parentData = this.navData.parent.navData;
 
-        handleNewFocusElement = function(element) {
+        handleNewFocusElement = function (element) {
             if (element) {
                 return element.navFindFocus(dir, dirY);
             } else if (typeof this.navOut === 'function') {
@@ -25,7 +26,7 @@ module.exports = {
             }
         }.bind(this);
 
-        function wrap(x, max) {
+        function wrap (x, max) {
             if (x >= max) {
                 return x % max;
             } else if (x < 0) {
@@ -75,7 +76,8 @@ module.exports = {
             return handleNewFocusElement(parentData.children[currentPos]);
         }
     },
-    navFindFocus: function(dir, dirY) {
+    navFindFocus: function (dir, dirY) {
+        'use strict';
         if (this.navData.children.length < 1) {
             return this;
         } else if (dir === -1) {
@@ -84,7 +86,8 @@ module.exports = {
             return this.navData.children[0].navFindFocus(dir);
         }
     },
-    navInit: function(children) {
+    navInit: function (children) {
+        'use strict';
         this.navData = {
             parent: null,
             children: [],
@@ -105,13 +108,16 @@ module.exports = {
             return this.navEach(children);
         }
     },
-    navSelf: function() {
+    navSelf: function () {
+        'use strict';
         return this;
     },
-    getInitialState: function() {
+    getInitialState: function () {
+        'use strict';
         return {hasFocus: false};
     },
-    navEach: function(children) {
+    navEach: function (children) {
+        'use strict';
         var self = this,
             cols = parseInt(self.props.navGridCols, 10);
 
