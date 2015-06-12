@@ -1,4 +1,4 @@
 module.exports = {
-    navigation: require('./navigationController.js'),
-    listAble: require('./navigationMixin.jsx')
+    controller: require('./navigationController.js'),
+    mixin: require('./navigationMixin.jsx')
 };

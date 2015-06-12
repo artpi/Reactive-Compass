@@ -22,9 +22,16 @@ module.exports = {
             }
         }
     },
-    init: function (element) {
+    init: function (element, rootToFocus) {
         'use strict';
         element.addEventListener('keydown', this.handleKey.bind(this));
+
+        if (rootToFocus !== undefined) {
+            //We will focus default root node.
+            if (this.navRoots[rootToFocus]) {
+                this.focus(this.navRoots[rootToFocus].navFindFocus(0, 0));
+            }
+        }
     },
     handleKey: function (event) {
         'use strict';
