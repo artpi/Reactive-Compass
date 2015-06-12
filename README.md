@@ -22,4 +22,7 @@ Reactive compass is composed of two elements:
 TBD
 
 ## Examples
-There will be examples, hold tight :)
+All example are on branch "example" in "examples" directory. This is by design. When you clone the repository or use it as submodule probably you dont want to have examples in your working app.
+To run any of these examples, checkout `example` branch, go to folder containing the example, install npm modules (`npm install`), build (`npm run build`) and you can open the example in your browser.
+### Current examples include:
+* [Sorting Grid example `examples/grid` ](https://github.com/artpi/Reactive-Compass/blob/example/examples/grid/app.jsx)
