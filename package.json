@@ -1,7 +1,7 @@
 {
-    "name"           : "Reactive-Compass",
+    "name"           : "reactive-compass",
     "description"    : "React mixin and focus controller for navigation using arrow keys",
-    "version"        : "0.5",
+    "version"        : "0.0.5",
     "author"         : "Artpi <artur@piszek.com>",
     "private"        : false,
     "main"           : "index.js",
