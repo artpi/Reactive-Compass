@@ -3,6 +3,15 @@ var React = require('react'),
 
 module.exports = {
     /**
+     * Sets up initial state of the react node.
+     * focused state indicates if element has focus.
+     * @return {object}
+     */
+    getInitialState: function () {
+        'use strict';
+        return {focused: false};
+    },
+    /**
      * Find focusable element for certain offset
      * @param  {number} dir  Horizontal offset
      * @param  {number} dirY Vertical offset
