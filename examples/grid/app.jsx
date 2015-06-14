@@ -158,6 +158,12 @@ domReady(function() {
         document.getElementById("content"),
         function() {
             navigation.controller.init(document, 0);
+
+            //Adding key logger for debug purposes:
+            document.addEventListener('keydown', function(ev) {
+                var keyName = navigation.controller.keyMap[ev.keyCode];
+                document.querySelector("#debug b").innerText = keyName;
+            });
         }
     );
 });
