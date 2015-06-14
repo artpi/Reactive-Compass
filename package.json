@@ -1,12 +1,28 @@
 {
-    "name"           : "Reactive-Compass",
-    "description"    : "",
-    "version"        : "0.0.1",
+    "name"           : "reactive-compass",
+    "description"    : "React mixin and focus controller for navigation using arrow keys",
+    "version"        : "0.0.5",
+    "author"         : "Artpi <artur@piszek.com>",
     "private"        : false,
     "main"           : "index.js",
+    "license"        : "GPL3",
     "devDependencies": {
         "react": "*"
     },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/artpi/Reactive-Compass"
+    },
+    "bugs": {
+      "url": "https://github.com/artpi/Reactive-Compass/issues"
+    },
+    "keywords": [
+      "react-component",
+      "navigation",
+      "embedded",
+      "accessibility",
+      "ARIA"
+    ],
     "eslintConfig": {
         "rules": {
             "brace-style": 2,
@@ -29,9 +45,7 @@
             "wrap-iife": [2, "outside"]
         },
         "globals": {
-            "define": true,
             "require": true,
-            "QUnit": true,
             "module": true,
             "document": true
         }
