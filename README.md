@@ -2,6 +2,8 @@
 Reactive compass is a navigation controller for keyboard navigation based systems.
 Initially developed for Smart TV and embedded devices utilizing **IR Remote**.
 
+![Grid example](https://raw.githubusercontent.com/artpi/Reactive-Compass/example/examples/grid/demo.gif)
+
 ## Navigation
 You navigate the app using Arrow keys. The proper element gets 'focused', and then you can perform actions on that element using different keyboard keys.
 
