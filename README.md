@@ -1,4 +1,6 @@
 # Reactive-Compass
+[![NPM badge](https://badge.fury.io/js/reactive-compass.svg)](https://www.npmjs.com/package/reactive-compass)
+
 Reactive compass is a navigation controller for keyboard navigation based systems.
 Initially developed for Smart TV and embedded devices utilizing **IR Remote**.
 
