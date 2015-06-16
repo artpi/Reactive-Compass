@@ -7,7 +7,9 @@
     "main"           : "index.js",
     "license"        : "GPL3",
     "devDependencies": {
-        "react": "*"
+        "react": "*",
+        "eslint": "^0.23.0",
+        "eslint-plugin-one-variable-per-var": "0.0.3"
     },
     "repository": {
       "type": "git",
@@ -24,7 +26,11 @@
       "ARIA"
     ],
     "eslintConfig": {
+        "plugins": [
+          "one-variable-per-var"
+        ],
         "rules": {
+            "one-variable-per-var/one-variable-per-var": 1,
             "brace-style": 2,
             "comma-style": 2,
             "indent": [2, 4, {"indentSwitchCase": true}],
